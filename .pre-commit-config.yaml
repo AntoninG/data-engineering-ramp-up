@@ -12,7 +12,7 @@ repos:
       entry: pylint
       language: system
       types: [python]
-      args: ["--reports=n", "--jobs 0", "--rcfile=.pylintrc"]
+      args: ["--reports=n", "--jobs=0", "--rcfile=.pylintrc"]
     - id: isort
       name: isort
       entry: isort
