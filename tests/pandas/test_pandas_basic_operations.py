@@ -9,10 +9,12 @@ class TestPandasBasicOperations(TestCase):
         self.matrix = pd.DataFrame({"A": [1, 2, 3, 4], "B": [21, 23, 87, 12]})
 
     def test_mean(self):
-        assert self.matrix.mean().equals(self.matrix.mean(axis=0))
+        assert self.matrix.mean().equals(self.matrix.mean(axis="index"))
         assert self.matrix.mean().equals(pd.Series([2.5, 35.75], index=["A", "B"]))
 
-        assert self.matrix.mean(axis=1).equals(pd.Series([11, 12.5, 45, 8], index=[0, 1, 2, 3]))
+        assert self.matrix.mean(axis="columns").equals(
+            pd.Series([11, 12.5, 45, 8], index=[0, 1, 2, 3])
+        )
 
     def test_abs(self):
         assert pd.Series([-0.333, 0.666]).abs().equals(pd.Series([0.333, 0.666]))
@@ -41,7 +43,7 @@ class TestPandasBasicOperations(TestCase):
         )
 
     def test_aggregate(self):
-        agg = self.matrix.aggregate(lambda row_values: row_values.sum(), axis=1)
+        agg = self.matrix.aggregate(lambda row_values: row_values.sum(), axis="columns")
         assert agg.equals(pd.Series([22, 25, 90, 16], index=[0, 1, 2, 3]))
         assert agg.sort_values(ascending=False).equals(
             pd.Series([90, 25, 22, 16], index=[2, 1, 0, 3])
